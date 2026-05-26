@@ -56,7 +56,6 @@ done
 log "Installing Homebrew cask apps..."
 
 CASKS=(
-    iterm2
     rectangle
     docker
     anaconda
@@ -70,6 +69,14 @@ for cask in "${CASKS[@]}"; do
         brew install --cask "$cask" || warn "Failed to install $cask (continuing)"
     fi
 done
+
+# iTerm2: check app existence directly since it may have been installed manually
+if [ -d "/Applications/iTerm.app" ] || brew list --cask iterm2 &>/dev/null; then
+    ok "iterm2 already installed"
+else
+    log "Installing iterm2..."
+    brew install --cask iterm2 || warn "Failed to install iterm2 (continuing)"
+fi
 
 # --- iTerm2 settings ---
 
