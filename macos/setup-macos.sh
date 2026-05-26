@@ -40,6 +40,7 @@ FORMULAE=(
     gh
     tmux
     docker-compose
+    poetry
 )
 
 for formula in "${FORMULAE[@]}"; do
