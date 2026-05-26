@@ -59,6 +59,7 @@ CASKS=(
     iterm2
     rectangle
     docker
+    anaconda
 )
 
 for cask in "${CASKS[@]}"; do
@@ -95,6 +96,24 @@ if [ -f "$ITERM2_PLIST" ]; then
 else
     warn "No iTerm2 plist found at $ITERM2_PLIST"
     warn "Export settings from your other machine first: ./terminal/iterm2/export-settings.sh"
+fi
+
+# --- Conda init ---
+
+log "Setting up conda..."
+
+CONDA_BIN="/opt/homebrew/anaconda3/bin/conda"
+
+if [ -f "$CONDA_BIN" ]; then
+    if grep -q "conda initialize" "$HOME/.zshrc" 2>/dev/null; then
+        ok "conda already initialized in .zshrc"
+    else
+        log "Running conda init zsh..."
+        "$CONDA_BIN" init zsh
+        ok "conda init done"
+    fi
+else
+    warn "conda not found at $CONDA_BIN — skipping init"
 fi
 
 # --- Developer fonts ---
