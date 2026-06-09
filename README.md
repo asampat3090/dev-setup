@@ -1,6 +1,6 @@
 # Dev Environment Setup
 
-Bootstrap a new Mac with my terminal, IDE, and AI tool configs.
+Bootstrap a new Mac or Linux cloud server with dev/ML configs.
 
 ## Quick Start
 
@@ -54,6 +54,17 @@ shell-configs/
 ├── macos/
 │   ├── README.md           # Optional macOS setup guide
 │   └── setup-macos.sh      # Extra tools & macOS defaults
+├── linux/
+│   ├── README.md           # Linux ML server setup guide
+│   ├── lib.sh              # Distro detection + package manager abstraction
+│   ├── setup-linux.sh      # Main entry point (detects distro + hardware)
+│   ├── setup-python.sh     # Python 3, pip, Miniconda
+│   ├── setup-gpu.sh        # NVIDIA drivers, CUDA, cuDNN
+│   ├── setup-ml-libs.sh    # ML/DL Python libraries
+│   ├── setup-multi-gpu.sh  # Multi-GPU: NCCL, DeepSpeed, Horovod
+│   ├── setup-docker.sh     # Docker CE + NVIDIA Container Toolkit
+│   ├── setup-ssh.sh        # SSH server for remote dev (Cursor/VS Code)
+│   └── setup-jupyter.sh    # JupyterLab remote access + systemd service
 └── legacy/
     └── vimrc.txt           # Old vim config (archived)
 ```
@@ -69,3 +80,21 @@ Installs extra tools (`jq`, `ripgrep`, `fzf`, `gh`, `tmux`, etc.), cask apps
 (`iTerm2`, `Rectangle`, `Docker`), configures iTerm2 to load saved preferences
 from the repo, installs developer fonts, and sets sensible macOS
 Finder/Dock/keyboard defaults.
+
+## Linux Cloud Server (ML)
+
+```bash
+cd linux
+chmod +x *.sh
+./setup-linux.sh
+```
+
+Sets up a Linux server for machine learning. Auto-detects distro (Ubuntu, Debian, RHEL/CentOS, Amazon Linux, Fedora) and adapts package manager commands. Auto-detects GPU presence and count:
+
+- **CPU-only** — Installs PyTorch/JAX CPU builds, scikit-learn, xgboost, etc.
+- **Single GPU** — Adds NVIDIA drivers, CUDA, cuDNN, GPU-accelerated PyTorch/JAX
+- **Multi-GPU (2+)** — Adds NCCL, DeepSpeed, Horovod for distributed training
+- **SSH** — Configures sshd for Cursor/VS Code Remote SSH access
+- **Jupyter** — JupyterLab with remote access, password auth, and a systemd service
+
+See [linux/README.md](linux/README.md) for full details.
