@@ -4,3 +4,4 @@
 *.swo
 .netrwhist
 .claude/
+terminal/.vim/bundle/
